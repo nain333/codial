@@ -4,6 +4,7 @@ const port = 3000;
 // use express router
 app.use('/', require('./routes/index'))
 
+
 app.listen(port,(error)=>{
     if(error){
         console.log(error);
