@@ -13,6 +13,7 @@
   "author": "@nain333",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1"
   }
 }
