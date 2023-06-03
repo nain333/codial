@@ -1,6 +1,10 @@
 module.exports.profile= (req,res)=>{
-    res.send('<h1>User profile</h1>')
+    res.render('profile',{
+        title:'profile'
+    })
 }
 module.exports.feeds=(req,res)=>{
-    res.send("<h1>User's feeds</h1>")
+    res.render('feeds',{
+        title:'User feeds'
+    })
 }
