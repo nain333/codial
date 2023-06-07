@@ -35,7 +35,7 @@ module.exports.create= (req,res)=>{
             }
             else{
                 console.log('user is created successfuly')
-                return res.redirect('/users/create')
+                return res.redirect('back')
                 
             }
         })
