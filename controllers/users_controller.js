@@ -80,3 +80,12 @@ module.exports.createSession=(req,res)=>{
         return;
     })
 }
+module.exports.signOut=(req,res)=>{
+    // console.log("clear cookie")
+    // return res.clearCookie('user_id')
+    res.clearCookie('user_id');
+    res.redirect('/users/sign-in')
+    
+    
+
+}
