@@ -20,28 +20,27 @@ module.exports.signin=(req,res)=>{
     })
 }
 module.exports.create= (req,res)=>{
-    if(req.body.password != req.body.confirm_password){
-        console.log('user is not created');
-        res.redirect('back')
-        User.findOne({email:req.body.email},(error,user)=>{
-            if(error){console.log('Error in creating user!'); return;}
-            if(!user){
-                User.create(req.body,(error,user)=>{
-                    if(error){console.log('Error in creating user!'); return;}
-                    return res.redirect('/users/sign-in')
-
-                })
-                
-            }
-            else{
-                console.log('user is created successfuly')
-                return res.redirect('back')
-                
-            }
-        })
+    if(req.body.password!=req.body.confirm_password){
+        return res.redirect('back')
     }
+    User.findOne({email:req.body.email}).then(function(user){
+        if(!user){
+            User.create(req.body).then((user)=>{
+                return res.redirect('/users/sign-in');
+            }).catch((error)=>{
+                console.log("Error in creating user while signing up ", error)
 
+            })
 
+        }
+        else{
+            res.redirect('back')
+        }
+
+    }).catch((error)=>{
+        console.log('error',err)
+
+    })
 }
 module.exports.createSession=(req,res)=>{
     
