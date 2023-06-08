@@ -8,9 +8,10 @@
 </head>
 <body>
     <h1>Codial's Sign In page</h1>
-    <form action="/users/create-session"></form>
-    <input name="email" type="text" required placeholder="Tyepe in your username:">
-    <input name="password" type="password" required placeholder="Type in your password">
-    <button>Log In</button>
+    <form action="/users/create-session" method="post">
+    <input  type="text" name="email" required placeholder="Tyepe in your username:">
+    <input  type="password" name="password" required placeholder="Type in your password">
+    <input type="submit" value="Log In">
+    </form>
 </body>
 </html>

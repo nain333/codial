@@ -1,8 +1,20 @@
 const User= require('../models/user')
 module.exports.profile= (req,res)=>{
-    res.render('profile',{
-        title:'profile'
-    })
+    if(req.cookies.user_id){
+        User.findById(req.cookies.user_id).then((user)=>{
+            res.render('profile',{
+                title: "Profile",
+                User: user
+            })
+        }).catch((error)=>{
+            res.redirect('/users/sign-in')
+        })
+    
+    }
+    else{
+        res.redirect('/users/sign-in')
+    }
+
 }
 module.exports.feeds=(req,res)=>{
     res.render('feeds',{
@@ -43,5 +55,28 @@ module.exports.create= (req,res)=>{
     })
 }
 module.exports.createSession=(req,res)=>{
-    
+    // steps to authenticate
+    //  finde the user
+    User.findOne({email:req.body.email}).then((user)=>{
+        // handle user found
+        if(user){
+            // handle password mismatches
+            if(user.password!=req.body.password){
+                return res.redirect('back')
+            }
+
+            // handle session creation
+            res.cookie('user_id ',user.id);
+            return res.redirect('/users/profile');
+
+        }
+        else{
+            // handle user not found
+            res.send('User not found')
+        }
+
+    }).catch((error)=>{
+        console.log("Error in creating the session ",error)
+        return;
+    })
 }
