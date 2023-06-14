@@ -26,6 +26,7 @@ module.exports.create= (req,res)=>{
     User.findOne({email:req.body.email}).then(function(user){
         if(!user){
             User.create(req.body).then((user)=>{
+                console.log("User is created", user)
                 return res.redirect('/users/sign-in');
             }).catch((error)=>{
                 console.log("Error in creating user while signing up ", error)
@@ -38,10 +39,12 @@ module.exports.create= (req,res)=>{
         }
 
     }).catch((error)=>{
-        console.log('error',err)
+        console.log('error',error)
 
     })
 }
 module.exports.createSession=(req,res)=>{
+    console.log("session created")
+    return res.redirect('/');
     
 }
