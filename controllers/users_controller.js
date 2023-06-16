@@ -10,11 +10,18 @@ module.exports.feeds=(req,res)=>{
     })
 }
 module.exports.signup=(req,res)=>{
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
+   
     res.render('sign_up',{
         title:'Codial | Signup'
     })
 }
-module.exports.signin=(req,res)=>{ 
+module.exports.signin=(req,res)=>{
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    } 
     res.render('sign_in',{
         title:'Codial | Sign In'
     })
@@ -47,4 +54,16 @@ module.exports.createSession=(req,res)=>{
     console.log("session created")
     return res.redirect('/');
     
+}
+module.exports.distroySession=(req,res)=>{
+        req.logout((error)=>{
+            if(error){
+                console.log("Error signingOut",error)
+                return 
+            }
+
+            return res.redirect('/')
+
+        })
+        return res.redirect('/')
 }
