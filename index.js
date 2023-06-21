@@ -21,11 +21,12 @@ app.use(sassMiddleware({
 app.use(express.urlencoded())
 // set up the cookie parser
 app.use(cookieParser());
-app.use(express.static('./assets'))
+app.use(express.static('./assets'))                                                
 app.use(expressLayouts);
 // extract styles and scripts from subpages in layouts.
 app.set('layout extractStyles',true)
 app.set('layout extractScripts',true)
+
 
 // set up the view engine
 app.set('view engine','ejs')
