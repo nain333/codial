@@ -18,6 +18,8 @@ app.use(sassMiddleware({
     outputStyle:'extended',
     prefix:'/css'
 }))
+
+    
 app.use(express.urlencoded())
 // set up the cookie parser
 app.use(cookieParser());

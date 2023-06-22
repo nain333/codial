@@ -1,3 +1,29 @@
 <footer>
-    Page Footer
+
+
+    <h4 id="my-foot-details">&copy; Codial All Copy Rights Reserved</h4>
+
+    <ul>
+    <% if(locals.user) { %>
+
+            
+
+        <li class="page_links">
+            <a href="/">Home</a>
+        </li>
+        <li class="page_links">
+            <a href="/users/profile">Profile</a>
+        </li>
+        
+        
+        
+
+
+  <%  } else { %>
+    <li class="page_links">
+        <a href="/">Home</a>
+    </li> 
+    
+  <%} %>
+</ul>
 </footer>

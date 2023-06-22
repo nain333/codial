@@ -1,0 +1,22 @@
+header {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: blue;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  height: 40px; }
+  header h3 a {
+    text-decoration: none;
+    margin-left: 10px;
+    color: white; }
+  header ul {
+    list-style-type: none;
+    display: flex;
+    color: white;
+    flex-wrap: wrap;
+    justify-content: space-between; }
+    header ul a {
+      margin-right: 10px;
+      color: white;
+      margin-top: -6px; }
