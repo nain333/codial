@@ -24,6 +24,9 @@
                 <% for(post of posts){%>
                     <li>
                         <%= post.content%>
+                        <small>
+                            <%= post.user %>
+                        </small>
                     </li>
                     <%}%>
             </ul>

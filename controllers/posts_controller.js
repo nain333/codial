@@ -3,7 +3,7 @@ module.exports.create=(req,res)=>{
     Post.create(
         {
             content:req.body.content,
-            user:req.body._id
+            user:req.user._id
         }
     ).then(()=>{
         res.redirect('back')
