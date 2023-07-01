@@ -1,35 +1,26 @@
 const Post = require('../models/posts')
-const user = require('../models/user')
-module.exports.home = async function(req,res){
-    // console.log(req.cookies)
-    // res.cookie('user_id',35) 
-    // Post.find({
+const User = require('../models/user')
+module.exports.home =  async function(req,res){
+    try{
+        // populate the user of each post and likes also
+       let posts = await Post.find({})
+       .sort('-createdAt')
+       .populate('user');
+       
+       
 
-    // }).then((posts)=>{
-    //     return res.render('home',{
-    //         title:'Codial | Home',
-    //         posts:posts
-            
-    //     })
-    // }).catch((error)=>{
-    //     console.log("error in fetcing posts",error)
+       return res.render('home', {
+           title: "Home",
+           posts:  posts
+       });
 
-    // })
-    // Post.find({}).populate('user').then(
-    //     (posts)=>{
-    //         console.log("this is post",posts)
-    //         res.render('home',{
-    //           title: 'Codial | Home',
-    //           posts:posts,
-              
-    //         })
-    //     }
-    // )
-    let post=await Post.find({}).populate('user')
-    console.log("Post",post)
-    return res.render('home',{
-        title: 'Codial | Home',
-        posts: post
-    })
+   }catch(err){
+       console.log('Error', err);
+       return;
+   }
   
 }
+    
+    
+
+  
