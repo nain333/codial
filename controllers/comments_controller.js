@@ -55,7 +55,7 @@ module.exports.destroy= async function(req,res)
 
             // deleting the likes
 
-            await Like.deleteMany({likeable: comment._id, onModel: "Comment"});
+            
 
 
             
@@ -70,6 +70,7 @@ module.exports.destroy= async function(req,res)
     } catch (error) {
 
         // req.flash("error", "error");
+        console.log('error :',error)
         return res.send("back");
         // console.log("error ", error);
     }
