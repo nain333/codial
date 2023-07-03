@@ -50,15 +50,6 @@ module.exports.destroy=async function(req,res){
             Comment.deleteMany({
                 post:req.params.id
             })
-            if(req.xhr){
-                req.flash('success','Post Deleted!!');
-                return res.status(200).json({
-                    data:{
-                        post_id:req.params.id
-                    },
-                    message:'post deleted succesfully'
-                })
-            }
             
             return res.redirect('/')
         }

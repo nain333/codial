@@ -1,11 +1,11 @@
-const comment = require('../models/comment')
-const post = require('../models/post')
+const Comment = require('../models/comment')
+const Post = require('../models/post')
 module.exports.create=function(req,res){
-    post.findById(req.body.post).then((post)=>{
+    Post.findById(req.body.post).then((post)=>{
         console.log(post)
         if(post){
             console.log(req.body.post)
-            comment.create({
+            Comment.create({
                 content:req.body.content,
                 post:   req.body.post,
                 user:   req.user._id
@@ -24,4 +24,54 @@ module.exports.create=function(req,res){
     })
 
 }
-module.exports.destroy
+// module.exports.destroy=function (req,res){
+//     Comment.findById(req.params.id).then((comment)=>{
+//         console.log(comment)
+//         if(comment.user==req.user.id){
+
+//             let postId=comment.post
+//             comment.deleteOne();
+//             Post.findByIdAndUpdate(postId , {$pull:{comments:req.params.id}
+//             },(req,res)=>{
+//                 res.redirect('back')
+//             })
+//         }
+
+//     })
+// }
+module.exports.destroy= async function(req,res)
+{
+    try {
+        let comment= await  Comment.findById(req.params.id);
+        console.log('comment', comment)
+
+        if(comment.user== req.user.id)
+        {
+            let postId=comment.post;
+            comment.deleteOne();
+
+             //removing that comment from post as well as in comment array which is present in array list of post
+            let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
+
+            // deleting the likes
+
+            await Like.deleteMany({likeable: comment._id, onModel: "Comment"});
+
+
+            
+
+            //removing that comment from post as well as in comment array which is present in array list of post
+
+        //    await Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
+
+           return res.redirect("back");
+        }
+
+    } catch (error) {
+
+        // req.flash("error", "error");
+        return res.send("back");
+        // console.log("error ", error);
+    }
+   
+}
