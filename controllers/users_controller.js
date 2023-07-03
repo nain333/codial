@@ -1,9 +1,16 @@
 const User= require('../models/user')
-module.exports.profile= (req,res)=>{
-    res.render('profile',{
-        title:'profile'
-    })
-}
+module.exports.profile = async function (req, res) {
+    try {
+    const user = await User.findById(req.params.id);
+    return res.render("profile", {
+    title: "Users",
+    profile_users: user,
+    });
+    } catch (err) {
+    console.error(err);
+    return res.redirect("/");
+    }
+    };
 module.exports.feeds=(req,res)=>{
     res.render('feeds',{
         title:'User feeds'
@@ -66,4 +73,7 @@ module.exports.distroySession=(req,res)=>{
 
         })
         return res.redirect('/')
+}
+module.exports.update= function(req,res){
+
 }

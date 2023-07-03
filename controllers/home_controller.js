@@ -6,17 +6,24 @@ module.exports.home =  async function(req,res){
        let posts = await Post.find({})
        .sort('-createdAt')
        .populate('user')
+       
        .populate({ 
             path:'comments',
 
        })
+       User.find({}).then((users)=>{
+        return res.render('home', {
+            title: "Home",
+            posts:  posts,
+            all_users:users
+        });
+
+
+       }).catch((error)=>console.log("Error fetching users"),error)
        
        
 
-       return res.render('home', {
-           title: "Home",
-           posts:  posts
-       });
+       
 
    }catch(err){
        console.log('Error', err);
