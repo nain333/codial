@@ -74,6 +74,18 @@ module.exports.distroySession=(req,res)=>{
         })
         return res.redirect('/')
 }
-module.exports.update= function(req,res){
-
+module.exports.update= async function(req,res){
+    try{
+        
+        if(req.user.id == req.params.id){
+            let user = await User.findByIdAndUpdate(req.params.id, req.body );
+            console.log('req body is', req.body)
+            return res.redirect('back');
+        }else{
+            return res.status(401).send('Unauthorized');
+        }
+    }
+     catch{
+        res.send('Error while updating user')
+     }
 }

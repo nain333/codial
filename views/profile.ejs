@@ -15,13 +15,11 @@
     </h1>
     
     <% if(user.id==profile_users.id){%>
-        <form action="/users/update<% profile_users.id %> " method="post">
-
-        <input type="text" name="name" placeholder="Edit your name..." value="<% profile_users.name %> " required>
-        
-        <input type="email" name="email" placeholder="Update your email..." value="<% profile_users.email %>" required>
-        <input type="submit" value="update">
-    </form>
+        <form action="/users/update/<%= profile_users.id %>" method="POST" >
+            <input type="text" name="name" placeholder="Your Name" value="<%= profile_users.name %>" required>
+            <input type="email" name="email" placeholder="Your Email" value="<%= profile_users.email %>" required>
+            <input type="submit"  value="Update">
+        </form>
 
 
     <% }else{ %>
