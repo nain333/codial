@@ -9,6 +9,9 @@ module.exports.home =  async function(req,res){
        
        .populate({ 
             path:'comments',
+            populate: {
+                path:  'user'
+            }
 
        })
        User.find({}).then((users)=>{

@@ -58,20 +58,24 @@ module.exports.create= (req,res)=>{
     })
 }
 module.exports.createSession=(req,res)=>{
+    req.flash('Success','Logged in successfully')
     console.log("session created")
     return res.redirect('/');
     
 }
 module.exports.distroySession=(req,res)=>{
+    
         req.logout((error)=>{
             if(error){
                 console.log("Error signingOut",error)
                 return 
             }
 
-            return res.redirect('/')
 
+            return res.redirect('/')
+            
         })
+        req.flash('success','Logged out successfully!')
         return res.redirect('/')
 }
 module.exports.update= async function(req,res){
