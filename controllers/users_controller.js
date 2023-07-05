@@ -41,6 +41,7 @@ module.exports.create= (req,res)=>{
         if(!user){
             User.create(req.body).then((user)=>{
                 console.log("User is created", user)
+                req.flash('success', 'sucessfuly singed up as ',user.name)
                 return res.redirect('/users/sign-in');
             }).catch((error)=>{
                 console.log("Error in creating user while signing up ", error)
@@ -83,7 +84,7 @@ module.exports.update= async function(req,res){
         
         if(req.user.id == req.params.id){
             let user = await User.findByIdAndUpdate(req.params.id, req.body );
-            console.log('req body is', req.body)
+            req.flash('success','user updated')
             return res.redirect('back');
         }else{
             return res.status(401).send('Unauthorized');

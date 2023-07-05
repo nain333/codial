@@ -50,11 +50,14 @@ module.exports.destroy=async function(req,res){
             Comment.deleteMany({
                 post:req.params.id
             })
+            req.flash('success','post got deleted along with all associated comments')
             
             return res.redirect('/')
         }
         else{
+            req.flash('error',"you can't delete the post")
             return res.redirect('/')
+            
         }
     } catch (error) {
         console.log(error);

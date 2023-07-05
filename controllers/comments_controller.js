@@ -63,7 +63,7 @@ module.exports.destroy= async function(req,res)
             //removing that comment from post as well as in comment array which is present in array list of post
 
         //    await Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
-
+            req.flash('success','Comment got deleted successfully')
            return res.redirect("back");
         }
 
