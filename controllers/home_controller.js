@@ -22,7 +22,7 @@ module.exports.home =  async function(req,res){
         });
 
 
-       }).catch((error)=>console.log("Error fetching users"),error)
+       }).catch((error)=>console.log("Error fetching users",error))
        
        
 
