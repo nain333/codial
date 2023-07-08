@@ -11,13 +11,22 @@ let createPost=()=>{
             data:newPostForm.serialize(),
             success:(data)=>{
                 let newPost= newPostDom(data.data.post)
-                console.log(data)
+                console.log(data.data.post)
                 $('#posts-list-container>ul').prepend(newPost)
                 console.log($('.delete-post-button' ))
-                deletePost($('.delete-post-button',newPost ))
+                deletePost($(' .delete-post-button',newPost ))
+                new Noty({
+                    theme: 'relax',
+                    text: "Post Published!",
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                    
+                }).show();
                 
 
             },
+
             error:(error)=>{
                 console.log("error",error.responseText);
             }
@@ -74,10 +83,10 @@ let createPost=()=>{
 
             e.preventDefault();
             $.ajax({
-                type:'Get',
+                type:'get',
                 url:$(deleteLink).prop('href'),
                 success:(data)=>{
-                    console.log('data:',data)
+                    console.log( "line 89: ",$(`#post-${data.data.post_id}`))
                     $(`#post-${data.data.post_id}`).remove()
 
 
@@ -90,6 +99,28 @@ let createPost=()=>{
         })
 
     }
-    createPost();
+    $('.delete-post-button').each(function(){
+    console.log('post deleted')
+        deletePost($(this));
+    })
+    
 //     $('.delete-post-button').click(deletePost())
+// convert all posts on the page to ajax
+// let convertPostsToAjax = function(){
+//     $('#posts-list-container>ul>li').each(function(){
+//         let self = $(this);
+//         let deleteButton = $(' .delete-post-button', self);
+//         deletePost(deleteButton);
+        
+
+        
+//     });
+// }
+    // convertPostsToAjax()
+
+createPost();
+
+
+
+
 }

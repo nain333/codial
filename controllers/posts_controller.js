@@ -21,18 +21,22 @@ module.exports.create =async function(req , res){
             content: req.body.content,
             user: req.user._id
         });
+        await post.populate('user','-password');
         if(req.xhr){
             console.log("post is creating soon...")
+            req.flash('post is created!')
             return res.status(200).json({
                 data:{
                     post:post
                 },
                 message:"Post is created !"
             })
+            
         }
 
         
        if(post){
+        
            return res.redirect('back');
        }else{
         console.log("error in creating post");
@@ -54,6 +58,7 @@ module.exports.create =async function(req , res){
 module.exports.destroy=async function(req,res){
     try {
         let post=await Post.findById(req.params.id);
+        console.log(post.user)
         
         if(post.user==req.user.id){
             post.deleteOne();
