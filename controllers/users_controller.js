@@ -84,6 +84,21 @@ module.exports.update= async function(req,res){
         
         if(req.user.id == req.params.id){
             let user = await User.findByIdAndUpdate(req.params.id, req.body );
+            User.uploadedAvatar(req,res,(err)=>{
+                if(err){
+                    console.log('*****MULTER ERROR*****',err)
+
+                }
+                user.name=req.body.name;
+                user.email=req.body.email;
+                if(req.file){
+                    // this is saving the path of the uploaded path in the avatar field of the user
+                    user.avatar=User.avatarPath+'/'+req.file.filename
+
+                }
+                user.save()
+                
+            })
             req.flash('success','user updated')
             return res.redirect('back');
         }else{
@@ -91,6 +106,6 @@ module.exports.update= async function(req,res){
         }
     }
      catch{
-        res.send('Error while updating user')
+        res.send('Error while updating user')  
      }
 }
