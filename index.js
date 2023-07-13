@@ -26,7 +26,8 @@ app.use(sassMiddleware({
 app.use(express.urlencoded())
 // set up the cookie parser
 app.use(cookieParser());
-app.use(express.static('./assets'))                                                
+app.use(express.static('./assets'))   
+app.use('/uploads',express.static(__dirname+'/uploads'))                                             
 app.use(expressLayouts);
 // extract styles and scripts from subpages in layouts.
 app.set('layout extractStyles',true)
