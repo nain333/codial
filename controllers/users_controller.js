@@ -46,6 +46,7 @@ module.exports.create= (req,res)=>{
                 req.flash('success', 'sucessfuly singed up as ',user.name)
                 return res.redirect('/users/sign-in');
             }).catch((error)=>{
+                console.log('inside create/usersControllers')
                 console.log("Error in creating user while signing up ", error)
 
             })

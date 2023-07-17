@@ -7,6 +7,6 @@ module.exports.index=(req,res)=>{
         },
         timeStamps:true
         
-    })
+    }                                       )
 
 }

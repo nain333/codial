@@ -24,7 +24,7 @@ passport.use(new LocalStratergy({
     // serializing the user to decide which kiey is to be kept in cookies
     passport.serializeUser((user,done)=>{
       console.log("Serialized User")
-      done(null,user.id)
+      return done(null,user.id)
 
     })
     // disirialize the user
