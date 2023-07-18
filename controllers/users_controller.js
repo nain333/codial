@@ -1,6 +1,11 @@
+const passwordResetMailer=require('../mailers/reset_password_mailer')
 const User= require('../models/user')
+const 
+Reset_Tokens=require('../models/reset_pass_tokens')
 const fs = require('fs');
 const path = require ('path')
+const crypto = require('crypto')
+
 module.exports.profile = async function (req, res) {
     try {
     const user = await User.findById(req.params.id);
@@ -33,6 +38,11 @@ module.exports.signin=(req,res)=>{
     } 
     res.render('sign_in',{
         title:'Codial | Sign In'
+    })
+}
+module.exports.forgotPassword=function(req,res){
+    return res.render('forgot_password',{
+        title:'Codial | Forgot Password'
     })
 }
 module.exports.create= (req,res)=>{
@@ -116,4 +126,36 @@ module.exports.update= async function(req,res){
      catch{
         res.send('Error while updating user')  
      }
+    
+      
+}
+module.exports.resetPassword=async function(req,res){
+    try{
+    let user= await User.findOne({email:req.body.reset_mail})
+    if(user){
+    let Token = await Reset_Tokens.create({
+        user:user,
+    
+        accessToken:crypto.randomBytes(100).toString('hex'),
+    
+        isValid:true
+    })
+     console.log('your passResetToken is ',Token)
+    passwordResetMailer.resetPasswordToken(Token)
+    
+    console.log('user: ', user)
+
+    }
+    return res.render('account_recovery',{
+        title:'Account Recovry || Codial',
+        resetUser:user,
+        resetMail:req.body.reset_mail
+    })
+
+ }
+ catch{
+    (err)=>{
+        console.log(error)
+    }
+ }
 }
