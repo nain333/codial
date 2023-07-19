@@ -1,6 +1,9 @@
 const passwordResetMailer=require('../mailers/reset_password_mailer')
+const passwordResetWorker=require('../workers/reset_password_worker')
 const User= require('../models/user')
+const queue=require('../config/kue')
 const Reset_Tokens=require('../models/reset_pass_tokens')
+
 const fs = require('fs');
 const path = require ('path')
 const crypto = require('crypto');
@@ -141,7 +144,13 @@ module.exports.resetPassword=async function(req,res){
         isValid:true
     })
      console.log('your passResetToken is ',Token)
-    passwordResetMailer.resetPasswordToken(Token)
+    //  passwordResetMailer.resetPasswordToken(Token)
+    let job = queue.create('resetemail',Token).save(function(err){
+        if(err){
+            console.log('Error in creating qeue for  reset_password_mailer ',err)
+        }
+        console.log(job.id)
+    })
     
     console.log('user: ', user)
 

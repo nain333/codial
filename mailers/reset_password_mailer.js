@@ -1,4 +1,6 @@
 const nodeMailer= require('../config/nodemailer')
+
+
 // exports.resetpasswordToken=(resetToken)=>{
 //     console.log("Inside resetToken mailer")
 //     let htmlString=nodeMailer.renderTamplet({
@@ -22,9 +24,9 @@ const nodeMailer= require('../config/nodemailer')
 
 // }
 exports.resetPasswordToken=(token)=>{
+
     console.log('Token inside resetPassword Mailer', token)
-    let htmlString=nodeMailer.renderTamplet({
-         token:token
+    let htmlString=nodeMailer.renderTamplet({         token:token
     },'reset_password/reset_password.ejs')
     
     console.log('tamplet randered successfully')
