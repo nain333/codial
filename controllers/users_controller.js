@@ -1,10 +1,10 @@
 const passwordResetMailer=require('../mailers/reset_password_mailer')
 const User= require('../models/user')
-const 
-Reset_Tokens=require('../models/reset_pass_tokens')
+const Reset_Tokens=require('../models/reset_pass_tokens')
 const fs = require('fs');
 const path = require ('path')
-const crypto = require('crypto')
+const crypto = require('crypto');
+
 
 module.exports.profile = async function (req, res) {
     try {
@@ -150,12 +150,86 @@ module.exports.resetPassword=async function(req,res){
         title:'Account Recovry || Codial',
         resetUser:user,
         resetMail:req.body.reset_mail
+        
     })
 
  }
  catch{
     (err)=>{
-        console.log(error)
+        console.log(err)
     }
  }
+
 }
+module.exports.askNewPassword=async function(req,res){
+    // try{
+    // var resetToken =  await Reset_Tokens.findOne({accessToken:req.params.accessToken})
+    // console.log('findOne result: ',resetToken)
+    // console.log('token in url:',req.params.accessToken.toString())
+    // console.log('token inside ask password: ',token)
+    // return res.render('create_new_password',{
+    //     token:resetToken,
+    //     title:'Create new Password'
+        
+    // })
+    // }
+    // catch{
+    //     console.log('Error in finding User')
+    // }
+
+    
+    Reset_Tokens.findOne({
+        accessToken:req.params.accessToken.toString()
+        
+    }).then((token)=>{
+        console.log('token inside url :',req.params.accessToken)
+        console.log('Token inside the findOne: ',token)
+        return res.render('create_new_password',{
+            title:'Create a new password | Codial',
+            token:token
+
+        })
+
+
+    })
+    
+
+}
+module.exports.setNewPassword=async function(req, res){
+    try{
+    let token = await Reset_Tokens.findOne({accessToken:req.params.accessToken})
+    console.log('Token inside setNewPassword:',token)
+    if(token.isValid){
+        if(req.body.new_password!=req.body.confirm_new_password){
+            return res.send('<h1>Password and confirm Passwords dont match, please try again<h1>')
+        }
+        else{
+            console.log('user_id of updation: ',token.user._id," confirm passsword ",req.body.confirm_new_password)
+            let updatePassword=await User.findOneAndUpdate({
+                _id:token.user._id
+
+
+            },{password:req.body.confirm_new_password})
+            
+            console.log('Password set successfully')
+            let setFalse=await Reset_Tokens.findOneAndUpdate({accessToken:req.params.accessToken},{isValid:false}) 
+            }
+            // return res.redirect('/users/reset-password/successfully')
+            return res.send(
+                '<h1> password set successfully</h1> <a href="/users/sign-in">return to login</a>'
+                
+                )
+        }else{
+            res.send('Your access token expired plese request for password change again!')
+        }
+    }catch(err){
+        console.log('Error while update the password', err)
+    }
+
+}
+// module.exports.resetSucessful=function(req,res){
+
+//     res.render('reset_successful',{
+//         title:'Password Reset Successfully | Codial'
+//     })
+// }
